@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'golang:1.20'  // Specify the Go version
+        }
+    }
 
     environment {
         DOCKER_IMAGE = 'jackupsurya/go-k8s-app:v1'
@@ -14,6 +18,7 @@ pipeline {
 
         stage('Build Go App') {
             steps {
+                sh 'go version'  // Check if Go is installed
                 sh 'go mod tidy'
                 sh 'go build -o app'
             }
